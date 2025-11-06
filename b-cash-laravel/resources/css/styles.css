@@ -1,0 +1,501 @@
+@import './app.css';
+
+/* B-Cash Global Styles */
+
+:root {
+    /* Light Theme Variables */
+    --gcash-green: #00B14F;
+    --gcash-blue: #0066cc;
+    --gcash-purple: #6f42c1;
+    --gcash-orange: #fd7e14;
+    --primary-color: #2563eb;
+    --secondary-color: #64748b;
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --warning-color: #f59e0b;
+    --background-color: #f8fafc;
+    --card-bg: #ffffff;
+    --header-bg: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --accent-blue: #3b82f6;
+    --accent-blue-hover: #2563eb;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --font-size-sm: 0.875rem;
+    --border-radius: 8px;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --gcash-green: #00B14F;
+    --gcash-blue: #0066cc;
+    --background-color: #0f0f23;
+    --card-bg: #1a1a2e;
+    --header-bg: #16213e;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.8);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.9);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--background-color);
+    min-height: 100vh;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Header Styles */
+.header {
+    background: var(--header-bg);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gcash-blue);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo i {
+    font-size: 1.8rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-links a:hover {
+    color: var(--gcash-blue);
+}
+
+/* Main Content */
+main {
+    padding: 2rem 1rem;
+    min-height: calc(100vh - 200px);
+}
+
+/* Container Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Auth & Registration UI */
+.auth-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    background: none;
+}
+
+.auth-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    padding: 3.5rem 2.5rem 2.5rem 2.5rem;
+    max-width: 440px;
+    width: 100%;
+    margin: 2.5rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-card .logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gcash-blue);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.auth-card h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+.auth-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.auth-form input,
+.auth-form select,
+.auth-form textarea {
+    padding: 14px 16px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1.08rem;
+    background: var(--card-bg);
+    transition: border 0.2s;
+}
+
+.auth-form input:focus,
+.auth-form select:focus,
+.auth-form textarea:focus {
+    border: 1.5px solid var(--gcash-blue);
+    outline: none;
+}
+
+.form-button {
+    width: 100%;
+    margin-top: 0.7rem;
+    padding: 14px 0;
+    font-size: 1.08rem;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    background: var(--gcash-blue);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-button:hover {
+    background: var(--accent-blue-hover);
+    transform: translateY(-1px);
+}
+
+.auth-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+}
+
+.auth-footer a {
+    color: var(--gcash-blue);
+    text-decoration: underline;
+}
+
+/* Alerts & Messages */
+.alert {
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.98rem;
+}
+
+.alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.92rem;
+    margin-top: 2px;
+}
+
+.is-invalid {
+    border-color: var(--error-color) !important;
+}
+
+/* Form Components */
+.password-input-group {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.password-input-group input {
+    flex: 1;
+}
+
+.toggle-password {
+    background: none;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.98rem;
+    color: var(--text-primary);
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.action-button {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+.action-button:hover {
+    border-color: var(--gcash-blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.action-icon {
+    font-size: 2rem;
+    color: var(--gcash-blue);
+    margin-bottom: 0.5rem;
+}
+
+.action-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+/* Balance Card */
+.balance-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    margin: 2rem 0;
+}
+
+.balance-label {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.balance-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gcash-blue);
+    margin-bottom: 1rem;
+}
+
+/* Transaction List */
+.transaction-list {
+    padding: 1.5rem;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-details {
+    flex: 1;
+}
+
+.transaction-amount {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.transaction-amount.positive {
+    color: var(--success-color);
+}
+
+.transaction-amount.negative {
+    color: var(--error-color);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--card-bg);
+    margin: 10% auto;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.close {
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    color: var(--text-secondary);
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: var(--error-color);
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.mt-2 { margin-top: 0.5rem; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .auth-card, .registration-card {
+        padding: 1.5rem 1rem;
+        margin: 1rem;
+    }
+    
+    .balance-amount {
+        font-size: 2rem;
+    }
+    
+    .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .modal-content {
+        margin: 20% auto;
+        padding: 1.5rem;
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .card-body {
+        padding: 1.5rem 1rem;
+    }
+
+    .form-input {
+        padding: 0.625rem 0.875rem;
+    }
+
+    .form-button {
+        padding: 0.75rem 1rem;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .balance-amount {
+        font-size: 1.8rem;
+    }
+}

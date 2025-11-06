@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Face AI - B-Cash</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        
+        #console {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+        
+        button {
+            background: #007b55;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #005a3f;
+        }
+        
+        #video {
+            width: 320px;
+            height: 240px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        #canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>🤖 Face AI Test - B-Cash</h1>
+    
+    <div id="status" class="status info">
+        🔄 Initializing Face AI...
+    </div>
+    
+    <div>
+        <h3>📋 Test Steps:</h3>
+        <button onclick="testModelsLoading()">1. Test Models Loading</button>
+        <button onclick="startCamera()">2. Start Camera</button>
+        <button onclick="testFaceDetection()">3. Test Face Detection</button>
+        <button onclick="clearConsole()">Clear Console</button>
+    </div>
+    
+    <div style="margin: 20px 0;">
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="canvas"></canvas>
+    </div>
+    
+    <h3>📊 Console Output:</h3>
+    <div id="console"></div>
+    
+    <!-- Face-API.js -->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="js/face-recognition.js"></script>
+    
+    <script>
+        let stream = null;
+        
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addToConsole(message, type = 'log') {
+            const consoleDiv = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff6b6b' : type === 'warn' ? '#ffa726' : '#4fc3f7';
+            consoleDiv.innerHTML += `<span style="color: ${color}">[${timestamp}] ${message}</span>\n`;
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole('ERROR: ' + args.join(' '), 'error');
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToConsole('WARN: ' + args.join(' '), 'warn');
+        };
+        
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = message;
+        }
+        
+        function testModelsLoading() {
+            console.log('=== TESTING MODELS LOADING ===');
+            
+            if (typeof faceapi === 'undefined') {
+                updateStatus('❌ Face-API.js not loaded!', 'error');
+                console.error('Face-API.js library not found');
+                return;
+            }
+            
+            console.log('✅ Face-API.js library loaded');
+            
+            if (window.faceRecognitionAI) {
+                console.log('✅ FaceRecognitionAI class loaded');
+                console.log('Models loaded status:', window.faceRecognitionAI.isLoaded);
+                
+                if (window.faceRecognitionAI.isLoaded) {
+                    updateStatus('✅ All AI models loaded successfully!', 'success');
+                } else {
+                    updateStatus('⏳ AI models still loading...', 'warning');
+                    
+                    // Wait and check again
+                    setTimeout(() => {
+                        if (window.faceRecognitionAI.isLoaded) {
+                            updateStatus('✅ AI models loaded successfully!', 'success');
+                        } else {
+                            updateStatus('❌ AI models failed to load', 'error');
+                        }
+                    }, 5000);
+                }
+            } else {
+                updateStatus('❌ FaceRecognitionAI not initialized', 'error');
+                console.error('FaceRecognitionAI class not found');
+            }
+        }
+        
+        async function startCamera() {
+            console.log('=== STARTING CAMERA ===');
+            
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 320, height: 240, facingMode: 'user' }
+                });
+                
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+                
+                console.log('✅ Camera started successfully');
+                updateStatus('📹 Camera active - ready for face detection', 'success');
+                
+            } catch (error) {
+                console.error('Camera error:', error);
+                updateStatus('❌ Camera access denied or not available', 'error');
+            }
+        }
+        
+        async function testFaceDetection() {
+            console.log('=== TESTING FACE DETECTION ===');
+            
+            if (!window.faceRecognitionAI || !window.faceRecognitionAI.isLoaded) {
+                console.error('Face AI not ready');
+                updateStatus('❌ Face AI not loaded. Run test 1 first.', 'error');
+                return;
+            }
+            
+            if (!stream) {
+                console.error('Camera not started');
+                updateStatus('❌ Camera not started. Run test 2 first.', 'error');
+                return;
+            }
+            
+            try {
+                const video = document.getElementById('video');
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Capture current frame
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0);
+                
+                console.log('📸 Frame captured, analyzing...');
+                updateStatus('🔍 Analyzing face...', 'warning');
+                
+                // Test face detection
+                const result = await window.faceRecognitionAI.detectFace(video);
+                
+                if (result.success) {
+                    console.log('✅ Face detected!');
+                    console.log('Confidence:', (result.confidence * 100).toFixed(1) + '%');
+                    console.log('Face quality:', (result.face_quality * 100).toFixed(1) + '%');
+                    console.log('Liveness score:', (result.liveness_score * 100).toFixed(1) + '%');
+                    console.log('Bounding box:', result.bounding_box);
+                    console.log('Expressions:', result.expressions);
+                    
+                    updateStatus(`✅ Face detected! Confidence: ${(result.confidence * 100).toFixed(1)}%, Quality: ${(result.face_quality * 100).toFixed(1)}%, Liveness: ${(result.liveness_score * 100).toFixed(1)}%`, 'success');
+                } else {
+                    console.error('❌ No face detected:', result.message);
+                    updateStatus('❌ No face detected. Make sure your face is visible in the camera.', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Face detection error:', error);
+                updateStatus('❌ Face detection failed: ' + error.message, 'error');
+            }
+        }
+        
+        function clearConsole() {
+            document.getElementById('console').innerHTML = '';
+        }
+        
+        // Auto-test models loading on page load
+        window.addEventListener('load', () => {
+            setTimeout(testModelsLoading, 1000);
+        });
+    </script>
+</body>
+</html>

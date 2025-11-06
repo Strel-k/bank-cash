@@ -1,0 +1,21 @@
+RewriteEngine On
+
+# CORS headers for all responses
+Header always set Access-Control-Allow-Origin "http://localhost:3000"
+Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS"
+Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+Header always set Access-Control-Allow-Credentials "true"
+
+# Handle preflight requests
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# Redirect all API requests to the public directory
+RewriteRule ^api/(.*)$ public/api/$1 [L]
+
+# Redirect all JS requests to the public directory
+RewriteRule ^public/js/(.*)$ public/js/$1 [L]
+
+# Redirect all CSS requests to the correct directories
+RewriteRule ^css/(.*)$ public/css/$1 [L]
+RewriteRule ^public/css/(.*)$ public/css/$1 [L]
