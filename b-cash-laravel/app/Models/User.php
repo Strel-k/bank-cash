@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -37,6 +38,7 @@ class User extends Authenticatable
         'last_login_attempt',
         'email_verified_at',
         'registration_step',
+        'password', // Add this for compatibility with Laravel's auth system
     ];
 
     /**
@@ -45,12 +47,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'password',
         'password_hash',
         'pin',
         'id_front',
         'id_back',
         'face_image',
         'remember_token',
+        'google_id',
     ];
 
     /**
@@ -82,7 +86,15 @@ class User extends Authenticatable
      */
     public function getAuthPassword()
     {
-        return $this->password_hash;
+        return $this->password_hash ?? $this->password;
+    }
+
+    /**
+     * Set the password attribute.
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password_hash'] = $value;
     }
 
     /**

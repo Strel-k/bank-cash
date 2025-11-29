@@ -141,7 +141,7 @@ async function refreshBalance() {
     balanceDisplay.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
     
     try {
-        const response = await fetch('/api/wallet/balance', {
+        const response = await fetch('/wallet/balance', {
             headers: {
                 'Accept': 'application/json',
                 'X-CSRF-TOKEN': window.csrfToken
