@@ -172,7 +172,7 @@
 .document-number-input input:focus {
     outline: none;
     border-color: var(--gcash-blue);
-    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+    box-shadow: 0 0 0 3px rgba(30, 155, 131, 0.1);
 }
 
 .upload-section {

@@ -1,7 +1,7 @@
-/* B-Cash Dark Theme - Black & Blue */
+/* B-Cash Dark Theme - Black & Green */
 :root {
-    --gcash-green: #0066cc;
-    --gcash-blue: #0066cc;
+    --gcash-green: #1e9b83;
+    --gcash-blue: #2ec4b6;
     --gcash-purple: #6f42c1;
     --gcash-orange: #fd7e14;
     --primary-color: #1e40af;
@@ -210,7 +210,7 @@ main {
 }
 
 .form-button:hover {
-    background: #004499;
+    background: #188f73;
     transform: translateY(-1px);
 }
 
@@ -444,7 +444,7 @@ main {
 }
 
 .btn-next:hover {
-    background: #004499;
+    background: #188f73;
 }
 
 .btn-prev:disabled,
@@ -793,7 +793,7 @@ main {
 }
 
 .modal-content button:hover {
-    background: #004499;
+    background: #188f73;
     transform: translateY(-1px);
 }
 
